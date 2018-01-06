@@ -1,7 +1,7 @@
 import 'unfetch/polyfill'
 import { getDictionary } from './dictionary'
 import { findSubSentences } from './findSubSentences'
-import image_src from './asset/whataboutthedroidattackonthewookiees.png'
+import image_src from './asset/whataboutthedroidattackonthewookiees.jpg'
 import { updateMask } from './mask'
 
 document.getElementById('image').src = image_src
