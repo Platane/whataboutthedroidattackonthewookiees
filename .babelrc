@@ -1,0 +1,24 @@
+{
+  "plugins": ["transform-object-rest-spread"],
+  "presets": ["flow"],
+  "env": {
+    "production": {
+      "presets": ["env"],
+      "plugins": [
+        [
+          "transform-runtime",
+          {
+            "helpers": false,
+            "polyfill": false,
+            "regenerator": true,
+            "moduleName": "babel-runtime"
+          }
+        ],
+        "transform-async-to-generator"
+      ]
+    },
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    }
+  }
+}

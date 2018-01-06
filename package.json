@@ -1,0 +1,35 @@
+{
+  "name": "watwat",
+  "version": "0.1.0",
+  "dependencies": {
+    "unfetch": "3.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "6.26.0",
+    "babel-jest": "22.0.4",
+    "babel-loader": "7.1.2",
+    "babel-plugin-transform-es2015-modules-commonjs": "6.26.0",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-preset-env": "1.6.1",
+    "babel-preset-flow": "6.23.0",
+    "babel-preset-minify": "0.2.0",
+    "babili-webpack-plugin": "0.1.2",
+    "file-loader": "1.1.6",
+    "flow-bin": "0.62.0",
+    "jest": "22.0.4",
+    "prettier": "1.9.2",
+    "webpack": "3.10.0",
+    "webpack-dev-server": "2.10.0"
+  },
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.(spec|test).js"
+    ]
+  },
+  "scripts": {
+    "start": "webpack-dev-server --inline --devtool source-map -d",
+    "test": "NODE_ENV=test jest --verbose",
+    "build": "NODE_ENV=production webpack"
+  }
+}

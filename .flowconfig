@@ -1,0 +1,6 @@
+[ignore]
+.*/node_modules/.*
+.*/dist/.*
+
+[options]
+all=true
