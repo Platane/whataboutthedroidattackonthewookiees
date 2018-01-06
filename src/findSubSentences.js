@@ -13,10 +13,8 @@ export const findWords = (
 ): Word[] => {
   if (subTree.isWord) words.push({ word: prefix, start, end: i })
 
-  const acc = []
-  while (s.length) {
-    const c = s.shift()
-    acc.push(c)
+  for (let k = i; k < s.length; k++) {
+    const c = s[k]
 
     if (subTree[c])
       findWords(
@@ -24,12 +22,10 @@ export const findWords = (
         s,
         words,
         prefix + c,
-        i + acc.length,
-        !prefix ? i + acc.length : start
+        k + 1,
+        !prefix ? k + 1 : start
       )
   }
-
-  s.push(...acc)
 
   return words
 }
