@@ -12,6 +12,18 @@ const app = document.getElementById('app')
 
 const wait = delay => new Promise(resolve => setTimeout(resolve, delay))
 
+const shuffle = arr => {
+  for (let i = arr.length; i--; ) {
+    const j = Math.floor(Math.random() * arr.length)
+
+    const c = arr[i]
+    arr[i] = arr[j]
+    arr[j] = c
+  }
+
+  return arr
+}
+
 const run = async () => {
   indication.innerText = 'loading dictionary ...'
 
@@ -24,6 +36,8 @@ const run = async () => {
   const sentences = findSubSentences(words)(
     'what about the droid attack on the wookiees'
   )
+
+  shuffle(sentences)
 
   indication.innerText = ''
 
