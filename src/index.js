@@ -4,6 +4,7 @@ import { create as createWordTree } from './wordTree'
 import { findWordInText } from './findWords'
 import { combineWords } from './combineWords'
 import image_src from './asset/whataboutthedroidattackonthewookiees.jpg'
+import './asset/withText.jpg'
 import { prepareMask } from './mask'
 
 document.getElementById('image').src = image_src
@@ -18,33 +19,17 @@ const update = sentence => updateMask((text.innerText = sentence))
 
 const wait = delay => new Promise(resolve => setTimeout(resolve, delay))
 
-const shuffle = arr => {
-  for (let i = arr.length; i--; ) {
-    const j = Math.floor(Math.random() * arr.length)
-
-    const c = arr[i]
-    arr[i] = arr[j]
-    arr[j] = c
-  }
-
-  return arr
-}
-
 const run = async () => {
   indication.innerText = 'loading dictionary ...'
 
   // const dictionary = ['watch']
   const dictionary = await getDictionary()
 
-  indication.innerText = 'building index ...'
+  indication.innerText = 'searching words ...'
 
   await wait(10)
 
   const find = findWordInText(dictionary)
-
-  indication.innerText = 'searching words ...'
-
-  await wait(10)
 
   const words = find('what about the droid attack on the wookiees')
 
