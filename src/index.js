@@ -52,11 +52,13 @@ const run = async () => {
 
   const c = combineWords(words)
 
-  update(c(Math.random()))
+  const seed = Math.random()
 
-  app.style.height = '6000px'
+  update(c(seed))
 
-  window.addEventListener('scroll', () => update(c(window.scrollY / 6000)))
+  app.style.height = '10000px'
+
+  window.addEventListener('scroll', () => update(c(seed + window.scrollY)))
 }
 
 run()
