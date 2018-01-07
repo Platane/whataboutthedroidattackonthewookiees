@@ -1,14 +1,20 @@
 import 'unfetch/polyfill'
 import { getDictionary } from './dictionary'
-import { findSubSentences } from './findSubSentences'
+import { create as createWordTree } from './wordTree'
+import { findWordInText } from './findWords'
+import { combineWords } from './combineWords'
 import image_src from './asset/whataboutthedroidattackonthewookiees.jpg'
-import { updateMask } from './mask'
+import { prepareMask } from './mask'
 
 document.getElementById('image').src = image_src
 
 const text = document.getElementById('text')
 const indication = document.getElementById('indication')
 const app = document.getElementById('app')
+
+const updateMask = prepareMask(document.getElementById('mask'))
+
+const update = sentence => updateMask((text.innerText = sentence))
 
 const wait = delay => new Promise(resolve => setTimeout(resolve, delay))
 
@@ -27,34 +33,30 @@ const shuffle = arr => {
 const run = async () => {
   indication.innerText = 'loading dictionary ...'
 
-  const words = (await getDictionary()).filter(x => x.length > 4)
+  // const dictionary = ['watch']
+  const dictionary = await getDictionary()
 
-  indication.innerText = 'searching for combinaisons ...'
+  indication.innerText = 'building index ...'
 
   await wait(10)
 
-  const sentences = findSubSentences(words)(
-    'what about the droid attack on the wookiees'
-  )
+  const find = findWordInText(dictionary)
 
-  shuffle(sentences)
+  indication.innerText = 'searching words ...'
+
+  await wait(10)
+
+  const words = find('what about the droid attack on the wookiees')
 
   indication.innerText = ''
 
-  updateMask(sentences[0])
-  text.innerText = sentences[0]
+  const c = combineWords(words)
 
-  app.style.height = sentences.length * 2 + 'px'
+  update(c(Math.random()))
 
-  window.addEventListener('scroll', e => {
-    const y = window.scrollY
+  app.style.height = '6000px'
 
-    const k = Math.floor(y / 2)
-
-    updateMask(sentences[k])
-
-    text.innerText = sentences[k]
-  })
+  window.addEventListener('scroll', () => update(c(window.scrollY / 6000)))
 }
 
 run()

@@ -1,7 +1,7 @@
 import type { Char, WordTree } from './wordTree'
 import { create as createWordTree } from './wordTree'
 
-type Word = { start: number, end: number, word: string }
+export type Word = { start: number, end: number, word: string }
 
 export const findWords = (
   subTree: WordTree,
@@ -86,16 +86,16 @@ export const extractUniqueWords = (words: Word[]): string[] => {
   return Object.keys(o)
 }
 
-export const findSubSentences = (words: string[]) => {
+export const findWordInText = (words: string[]) => {
   // build a tree containing the words
   // this will allows to quick access validity
   // each node hold a letter,
   // the word formed by the letter from the root to the leaf is valid <=> the leaf holds "isWord"
   const wordTree = createWordTree(words)
 
-  return (sentence: string): string[] => {
+  return (text: string): Word[] => {
     // remove spaces and transfom into char array
-    const s = sentence
+    const s = text
       .toLowerCase()
       .replace(/ /g, '')
       .split('')
@@ -105,11 +105,6 @@ export const findSubSentences = (words: string[]) => {
     const words = findWords(wordTree, s)
 
     // remove duplicated words ( which are in the same interval )
-    const trimWords = trimRedundantWords(words)
-
-    // generate all the combinaisons
-    const combinedWords = combineWords(trimWords)
-
-    return extractUniqueWords(combinedWords)
+    return trimRedundantWords(words)
   }
 }
