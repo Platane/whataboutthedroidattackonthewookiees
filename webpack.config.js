@@ -43,7 +43,7 @@ module.exports = {
       },
 
       {
-        test: [/\.bmp/, /\.gif/, /\.jpe?g/, /\.png/, /\.otf/, /\.svg/],
+        test: [/\.jpg/, /script\.txt/],
         loader: 'file-loader',
         options: {
           name: '[hash:8].[ext]',
