@@ -1,5 +1,5 @@
 import { create } from '../wordTree'
-import { findWords } from '../findSubSentences'
+import { findWords } from '../findWords'
 
 it('should find words into text', () => {
   const wt = create(['abc', 'def', 'g'])

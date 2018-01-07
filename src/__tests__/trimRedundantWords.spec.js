@@ -1,4 +1,4 @@
-import { trimRedundantWords } from '../findSubSentences'
+import { trimRedundantWords } from '../findWords'
 
 it('should remove duplicate', () => {
   const trimed = trimRedundantWords([
