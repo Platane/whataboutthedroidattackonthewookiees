@@ -80,7 +80,7 @@ export const combineWords = (words: Word[]): Word[] => {
   return words
 }
 
-const extractUniqueWords = words => {
+export const extractUniqueWords = (words: Word[]): string[] => {
   const o = {}
   words.forEach(({ word }) => (o[word] = true))
   return Object.keys(o)
