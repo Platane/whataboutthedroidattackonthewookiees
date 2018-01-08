@@ -1,6 +1,5 @@
-import type { Char, WordTree } from './wordTree'
-import { create as createWordTree } from './wordTree'
-import { hash } from './hash'
+import { getStartIndex } from './partialWord'
+import { hash } from '../hash'
 
 import type { Word } from './findWords'
 
@@ -19,19 +18,6 @@ export const getAllcombinedWords = (words: Word[]): Word[] => {
   }
 
   return words
-}
-
-const getStartIndex = (words, start, a = 0) => {
-  let b = words.length
-
-  while (b - a > 1) {
-    const e = Math.floor((a + b) / 2)
-
-    if (words[e].start < start) a = e
-    else if (words[e].start >= start) b = e
-  }
-
-  return b
 }
 
 export const combineWords = (words: Word[]) => {
