@@ -44,7 +44,7 @@ export const getWordsInRange = (
 
   for (
     let i = getStartIndex(words, start);
-    i < words.length && words[i].start < end;
+    i < words.length && words[i].start <= end;
     i++
   ) {
     if (words[i].end <= end) m.push(words[i])
@@ -111,7 +111,7 @@ export const getAvailableWords = (words: Word[]) => {
 
     const intervals = [].concat(
       ...combinaisons.map(arr =>
-        inverseInterval(arr.map(x => [x.start, x.end + 1]))
+        inverseInterval(arr.map(x => [x.start - 1, x.end + 1]))
       )
     )
 
