@@ -14,6 +14,13 @@ module.exports = {
     ],
   },
 
+  resolve: {
+    alias: {
+      react: 'preact-compat',
+      'react-dom': 'preact-compat',
+    },
+  },
+
   output: {
     path: path.join(__dirname, './dist'),
     filename: '[name].js',

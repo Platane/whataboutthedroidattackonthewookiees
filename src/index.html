@@ -33,6 +33,10 @@
   #image{
     max-width: calc(100% - 20px);
   }
+  #searchbar{
+    position: fixed;
+    top:0;
+  }
   #fixed{
     position: fixed;
     height: 100%;
@@ -55,14 +59,14 @@
 <body>
 <div id="app">
   <div id="fixed">
-
-  <div id="indication">loading ...</div>
-  <div id="container">
-    <canvas id="mask"></canvas>
-    <img id="image"></img>
+    <div id="indication">loading ...</div>
+    <div id="container">
+      <canvas id="mask"></canvas>
+      <img id="image"></img>
+    </div>
+    <div id="text"></div>
   </div>
-  <div id="text"></div>
-  </div>
+  <div id="searchbar"></div>
 </div>
 <script src="index.js"></script>
 </body>

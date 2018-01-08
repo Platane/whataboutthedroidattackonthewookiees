@@ -1,5 +1,9 @@
 {
-  "plugins": ["transform-object-rest-spread"],
+  "plugins": [
+    "emotion",
+    ["transform-react-jsx", { "pragma": "h" }],
+    "transform-object-rest-spread"
+  ],
   "presets": ["flow"],
   "env": {
     "production": {

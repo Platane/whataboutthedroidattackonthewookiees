@@ -2,14 +2,22 @@
   "name": "whataboutthedroidattackonthewookiees",
   "version": "0.1.0",
   "dependencies": {
+    "emotion": "8.0.12",
+    "preact": "8.2.7",
+    "preact-compat": "3.17.0",
+    "preact-emotion": "8.0.12",
+    "prop-types": "15.6.0",
+    "react-simplest-typeahead": "1.0.1",
     "unfetch": "3.0.0"
   },
   "devDependencies": {
     "babel-core": "6.26.0",
     "babel-jest": "22.0.4",
     "babel-loader": "7.1.2",
+    "babel-plugin-emotion": "8.0.12",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.0",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-plugin-transform-react-jsx": "6.24.1",
     "babel-plugin-transform-runtime": "6.23.0",
     "babel-preset-env": "1.6.1",
     "babel-preset-flow": "6.23.0",
