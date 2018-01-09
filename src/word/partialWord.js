@@ -61,8 +61,8 @@ export const getWordCombinaisons = (words: Word[]) => {
     if (ws.length === 0) return [[]]
 
     return [].concat(
-      ...ws.map(words => {
-        const wss = ws.filter(x => x !== words)
+      ...ws.map((words, i) => {
+        const wss = ws.filter((_, j) => i !== j)
 
         return [].concat(
           ...words.map(word => {
