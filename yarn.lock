@@ -2390,9 +2390,9 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-flow-bin@0.62.0:
-  version "0.62.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.62.0.tgz#14bca669a6e3f95c0bc0c2d1eb55ec4e98cb1d83"
+flow-bin@0.63.1:
+  version "0.63.1"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.63.1.tgz#ab00067c197169a5fb5b4996c8f6927b06694828"
 
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
@@ -4497,9 +4497,9 @@ react-dom@>=16:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-simplest-typeahead@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-simplest-typeahead/-/react-simplest-typeahead-1.0.1.tgz#2f3fdb104de6c5b350883ebe551a897ca74fdb5a"
+react-simplest-typeahead@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-simplest-typeahead/-/react-simplest-typeahead-1.0.3.tgz#c92bf0233a10d054e8821eb0123f8ac6d10aa669"
   dependencies:
     react ">=16"
     react-dom ">=16"

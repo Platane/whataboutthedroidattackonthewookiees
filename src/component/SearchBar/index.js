@@ -4,7 +4,7 @@ import { injectFilterState, Tokenizer } from 'react-simplest-typeahead'
 import { cutPattern } from './cutPattern'
 import { formatOption, formatValue } from './parse'
 
-const renderOption = pattern => ({ option, isHighlighted, ...props }) => (
+const renderOption = ({ option, isHighlighted, pattern, ...props }) => (
   <Option key={option} {...props} isHighlighted={isHighlighted}>
     {cutPattern(option, pattern).map(({ text, type }) => (
       <Text type={type}>{text}</Text>
@@ -12,8 +12,8 @@ const renderOption = pattern => ({ option, isHighlighted, ...props }) => (
   </Option>
 )
 
-const renderItem = ({ item, onDelete, ...props }) => (
-  <Item key={item} {...props} onClick={onDelete}>
+const renderItem = ({ i, item, onDelete, ...props }) => (
+  <Item key={i} {...props} onClick={onDelete}>
     <Text type="normal">{item}</Text>
     <RemoveButton />
   </Item>
@@ -35,7 +35,6 @@ const Item = styled.div`
   flex-direction: row;
   align-items: center;
 `
-// background-color: #fafafa;
 
 const Option = styled.div`
   padding: 6px;
@@ -53,12 +52,11 @@ const RemoveButton = styled.div`
   }
 `
 
-const SearchBar_ = ({ pattern, value, ...props }) => (
-  <Tokenizer
-    pattern={pattern}
+const SearchBar_ = ({ value, ...props }) => (
+  <TokenizerWithFilter
     value={value}
     renderItem={renderItem}
-    renderOption={renderOption(pattern)}
+    renderOption={renderOption}
     placeholder="type here ..."
     customClassName={customClassName}
     {...props}
@@ -86,14 +84,20 @@ const customClassName = {
 }
 
 const filterFunction = pattern => word => word.includes(pattern.toLowerCase())
+const sortFunction = pattern => (a, b) =>
+  (pattern.length - a.length) / a.length <
+  (pattern.length - b.length) / b.length
+    ? 1
+    : -1
 
-const SearchBar__ = injectFilterState({
+const TokenizerWithFilter = injectFilterState({
   filter: filterFunction,
+  sort: sortFunction,
   maxDisplayed: 16,
-})(SearchBar_)
+})(Tokenizer)
 
 export const SearchBar = ({ value, words, onChange }) => (
-  <SearchBar__
+  <SearchBar_
     options={formatOption(words)(value)}
     value={value}
     onChange={value => onChange(formatValue(words)(value))}

@@ -7,7 +7,7 @@
     "preact-compat": "3.17.0",
     "preact-emotion": "8.0.12",
     "prop-types": "15.6.0",
-    "react-simplest-typeahead": "1.0.1",
+    "react-simplest-typeahead": "1.0.3",
     "unfetch": "3.0.0"
   },
   "devDependencies": {
@@ -24,14 +24,16 @@
     "babel-preset-minify": "0.2.0",
     "babili-webpack-plugin": "0.1.2",
     "file-loader": "1.1.6",
-    "flow-bin": "0.62.0",
+    "flow-bin": "0.63.1",
     "jest": "22.0.4",
     "prettier": "1.9.2",
     "webpack": "3.10.0",
     "webpack-dev-server": "2.10.0"
   },
   "jest": {
-    "testMatch": ["**/__tests__/**/*.(spec|test).js"]
+    "testMatch": [
+      "**/__tests__/**/*.(spec|test).js"
+    ]
   },
   "scripts": {
     "start": "webpack-dev-server --inline --devtool source-map -d",
