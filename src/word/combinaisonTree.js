@@ -14,7 +14,7 @@ type CombinaisonTree = {
   }[],
 }
 
-const getWordInExactRange = (words_by_start, start, end) => {
+const getWordInExactRange = words_by_start => (start, end) => {
   const c = []
 
   const s = words_by_start[start]
@@ -26,6 +26,15 @@ const getWordInExactRange = (words_by_start, start, end) => {
   for (; i < s.length && s[i].end == end; i++) c.push(s[i].word)
 
   return c
+}
+
+const memoize = fn => {
+  const mem = {}
+
+  return (a, b) => {
+    const key = a + '' + b
+    return mem[key] ? mem[key] : (mem[key] = fn(a, b))
+  }
 }
 
 const createSortByStart = (words: Word[]) => {
@@ -55,18 +64,18 @@ const createSortByStart = (words: Word[]) => {
 }
 
 const buildCombinaisonStartingAt = (
-  words_by_start,
+  getWordInExactRange,
   start,
   end
 ): CombinaisonTree => {
-  const full = getWordInExactRange(words_by_start, start, end)
+  const full = getWordInExactRange(start, end)
 
   const fragmented = []
 
   let full_sum = full.length
 
   for (let k = start; k < end; k++) {
-    const prefixes = getWordInExactRange(words_by_start, start, k)
+    const prefixes = getWordInExactRange(start, k)
 
     if (prefixes.length > 0) {
       // no need to compute the next step otherwise
@@ -75,7 +84,7 @@ const buildCombinaisonStartingAt = (
       let sum_next = 0
 
       for (let h = k + 1; h <= end; h++) {
-        const n = buildCombinaisonStartingAt(words_by_start, h, end)
+        const n = buildCombinaisonStartingAt(getWordInExactRange, h, end)
         sum_next += n.sum
         if (n.sum) next.push(n)
       }
@@ -104,6 +113,8 @@ const buildCombinaisonStartingAt = (
 export const create = (words: Word[]): CombinaisonTree => {
   const words_by_start = createSortByStart(words)
 
+  const getWordInExactRange_m = memoize(getWordInExactRange(words_by_start))
+
   const end = words_by_start.length - 1
 
   let sum = 0
@@ -112,7 +123,7 @@ export const create = (words: Word[]): CombinaisonTree => {
 
   for (let start = 0; start <= end; start++) {
     const prefixes = ['']
-    const next = buildCombinaisonStartingAt(words_by_start, start, end)
+    const next = buildCombinaisonStartingAt(getWordInExactRange_m, start, end)
     sum += next.sum
 
     if (next.sum)
