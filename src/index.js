@@ -92,6 +92,13 @@ const run = async () => {
       )
 
     onChange()
+
+    updateMask(
+      getCombinaisonAt(
+        combinaisonTree,
+        Math.floor(Math.random() * combinaisonTree.sum)
+      )
+    )
   }
 }
 
