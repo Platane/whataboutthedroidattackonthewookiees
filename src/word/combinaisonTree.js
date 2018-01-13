@@ -45,7 +45,7 @@ const getWordInExactRange = words_by_start => (start, end) => {
 const memoize = fn => {
   const mem = {}
 
-  return (a, b) => {
+  return (a: number, b: number): * => {
     const key = a + '' + b
     return mem[key] ? mem[key] : (mem[key] = fn(a, b))
   }
@@ -77,57 +77,55 @@ const createSortByStart = (words: Word[]) => {
   return words_by_start
 }
 
-const buildCombinaisonStartingAt = (
-  getWordInExactRange,
-  start,
-  end
-): CombinaisonTree => {
-  const full = getWordInExactRange(start, end)
-
-  const fragmented = []
-
-  let full_sum = full.length
-
-  for (let k = start; k < end; k++) {
-    const prefixes = getWordInExactRange(start, k)
-
-    if (prefixes.length > 0) {
-      // no need to compute the next step otherwise
-      //
-      const next = []
-      let sum_next = 0
-
-      for (let h = k + 1; h <= end; h++) {
-        const n = buildCombinaisonStartingAt(getWordInExactRange, h, end)
-        sum_next += n.sum
-        if (n.sum) next.push(n)
-      }
-
-      const sum = prefixes.length * (sum_next + 1)
-
-      full_sum += sum
-
-      if (sum)
-        fragmented.push({
-          prefixes,
-          next,
-          sum_next,
-          sum,
-        })
-    }
-  }
-
-  return {
-    full,
-    fragmented,
-    sum: full_sum,
-  }
-}
-
 export const create = (words: Word[]): CombinaisonTree => {
   const words_by_start = createSortByStart(words)
 
   const getWordInExactRange_m = memoize(getWordInExactRange(words_by_start))
+
+  const buildCombinaisonStartingAt = memoize(
+    (start: number, end: number): CombinaisonTree => {
+      const full = getWordInExactRange_m(start, end)
+
+      const fragmented = []
+
+      let full_sum = full.length
+
+      for (let k = start; k < end; k++) {
+        const prefixes = getWordInExactRange_m(start, k)
+
+        if (prefixes.length > 0) {
+          // no need to compute the next step otherwise
+          //
+          const next = []
+          let sum_next = 0
+
+          for (let h = k + 1; h <= end; h++) {
+            const n = buildCombinaisonStartingAt(h, end)
+            sum_next += n.sum
+            if (n.sum) next.push(n)
+          }
+
+          const sum = prefixes.length * (sum_next + 1)
+
+          full_sum += sum
+
+          if (sum)
+            fragmented.push({
+              prefixes,
+              next,
+              sum_next,
+              sum,
+            })
+        }
+      }
+
+      return {
+        full,
+        fragmented,
+        sum: full_sum,
+      }
+    }
+  )
 
   const end = words_by_start.length - 1
 
@@ -137,7 +135,7 @@ export const create = (words: Word[]): CombinaisonTree => {
 
   for (let start = 0; start <= end; start++) {
     const prefixes = ['']
-    const next = buildCombinaisonStartingAt(getWordInExactRange_m, start, end)
+    const next = buildCombinaisonStartingAt(start, end)
     sum += next.sum
 
     if (next.sum)
