@@ -2,7 +2,7 @@ import { h, Component } from 'preact'
 import styled, { css } from 'preact-emotion'
 import { injectFilterState, Tokenizer } from 'react-simplest-typeahead'
 import { cutPattern } from './cutPattern'
-import { formatOption, formatValue } from './parse'
+import { formatOption, formatValue, formatCount } from './parse'
 
 const renderOption = ({ option, isHighlighted, pattern, ...props }) => (
   <Option key={option} {...props} isHighlighted={isHighlighted}>
@@ -96,10 +96,31 @@ const TokenizerWithFilter = injectFilterState({
   maxDisplayed: 16,
 })(Tokenizer)
 
-export const SearchBar = ({ value, words, onChange }) => (
-  <SearchBar_
-    options={formatOption(words)(value)}
-    value={value}
-    onChange={value => onChange(formatValue(words)(value))}
-  />
+export const SearchBar = ({
+  availableWords,
+  combinaisonTree,
+  value,
+  words,
+  onChange,
+}) => (
+  <Container>
+    <SearchBar_
+      options={formatOption(words)(value)}
+      value={value}
+      onChange={value => onChange(formatValue(words)(value))}
+    />
+    {combinaisonTree && (
+      <Counter>{`${formatCount(combinaisonTree.sum)} combinaisons`}</Counter>
+    )}
+  </Container>
 )
+
+const Container = styled.div`
+  margin: 4px;
+`
+const Counter = styled.div`
+  margin-top: 4px;
+  font-size: 0.8em;
+  font-style: italic;
+  text-align: right;
+`

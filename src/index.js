@@ -1,13 +1,17 @@
 import 'unfetch/polyfill'
 import { getDictionary } from './dictionary'
 import { findWordInText } from './word/findWords'
-import { combineWords } from './word/combineWords'
+import {
+  create as createCombinaisonTree,
+  getCombinaisonAt,
+} from './word/combinaisonTree'
 import { getAvailableWords, getWordCombinaisons } from './word/partialWord'
-import image_src from './asset/whataboutthedroidattackonthewookiees.jpg'
-import './asset/withText.jpg'
 import { prepareMask } from './mask'
 import { h, render } from 'preact'
 import { SearchBar } from './component/SearchBar'
+
+import image_src from './asset/whataboutthedroidattackonthewookiees.jpg'
+import './asset/withText.jpg'
 
 document.getElementById('image').src = image_src
 
@@ -32,30 +36,28 @@ const run = async () => {
 
   const words = findWordInText(dictionary)(
     'what about the droid attack on the wookiees'
-  )
+  ).sort((a, b) => (a.start < b.start ? -1 : 1))
 
   indication.innerText = ''
 
-  app.style.height = '10000px'
-
   {
-    let value = ''
-    let getRandomSentence = combineWords(words)
+    let value = []
+    let combinaisonTree = null
+    let availableWords = []
 
     const getAvailableWords_ = getAvailableWords(words)
     const getWordCombinaisons_ = getWordCombinaisons(words)
     const seed = Math.random()
 
-    updateMask(getRandomSentence(seed))
-
     const updateScroll = window.addEventListener('scroll', () => {
-      const words = (
-        value +
-        ' ' +
-        (window.scrollY ? getRandomSentence(window.scrollY + seed) : '')
-      )
-        .split(' ')
-        .filter(Boolean)
+      const k = window.scrollY - 1
+
+      availableWords
+
+      const combinaison =
+        k >= 0 && combinaisonTree ? getCombinaisonAt(combinaisonTree, k) : ''
+
+      const words = [...value, ...combinaison.split(' ').filter(Boolean)]
 
       updateMask(
         getWordCombinaisons_(words)[0]
@@ -64,11 +66,14 @@ const run = async () => {
       )
     })
 
-    const onChange = values => {
-      value = values.join(' ')
-      getRandomSentence = combineWords(getAvailableWords_(values))
+    const onChange = v => {
+      if (v) value = v
+      availableWords = getAvailableWords_(value)
+      combinaisonTree = createCombinaisonTree(availableWords)
       updateDom()
-      updateMask(value || getRandomSentence(seed))
+      updateMask(value.join(' '))
+      app.style.height = `${combinaisonTree.sum + window.innerHeight}px`
+      // window.scrollY = 0
     }
 
     const container = document.getElementById('searchbar')
@@ -77,14 +82,16 @@ const run = async () => {
       render(
         <SearchBar
           words={words}
-          value={value.split(' ').filter(Boolean)}
+          value={value}
+          availableWords={availableWords}
+          combinaisonTree={combinaisonTree}
           onChange={onChange}
         />,
         container,
         container.children[0]
       )
 
-    updateDom()
+    onChange()
   }
 }
 

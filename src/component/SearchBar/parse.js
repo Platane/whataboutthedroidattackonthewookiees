@@ -6,6 +6,8 @@ const removeDuplicate = arr => {
   return Object.keys(o)
 }
 
+// export const formatOption = words => removeDuplicate(words.map(w => w.word))
+
 export const formatOption = words => {
   const g = getAvailableWords(words)
 
@@ -30,4 +32,21 @@ const memoize = fn => {
     memory.arg = arg
     return (memory.value = fn(arg))
   }
+}
+
+export const formatCount = (x: number) => {
+  const s = []
+  const c = x
+    .toString()
+    .split('')
+    .reverse()
+  while (c.length)
+    s.unshift(
+      c
+        .splice(0, 3)
+        .filter(Boolean)
+        .reverse()
+        .join('')
+    )
+  return s.join(' ')
 }
