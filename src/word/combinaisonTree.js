@@ -19,9 +19,23 @@ const getWordInExactRange = words_by_start => (start, end) => {
 
   const s = words_by_start[start]
 
-  // TODO dichotomie
+  if (!s.length) return c
+
+  // dichotomie
   let i = 0
-  for (; i < s.length && s[i].end < end; i++);
+  {
+    let a = 0
+    let b = s.length - 1
+
+    while (b - a > 1) {
+      const e = Math.floor((a + b) / 2)
+
+      if (s[e].end < end) a = e
+      else b = e
+    }
+
+    i = s[a].end === end ? a : b
+  }
 
   for (; i < s.length && s[i].end == end; i++) c.push(s[i].word)
 
