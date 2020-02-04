@@ -18,10 +18,29 @@ document.getElementById('image').src = image_src
 const text = document.getElementById('text')
 const indication = document.getElementById('indication')
 const app = document.getElementById('app')
+const permanent = document.getElementById('permanent')
+const image = document.getElementById('image')
+const mask = document.getElementById('mask')
 
-const _updateMask = prepareMask(document.getElementById('mask'))
+const _updateMask = prepareMask(mask)
 
-const updateMask = sentence => _updateMask((text.innerText = sentence))
+const updateMaskPermanent = sentence => {
+  permanent.width = 400
+  permanent.height = 249
+  const ctx = permanent.getContext('2d')
+  ctx.drawImage(image,0,0,permanent.width,permanent.height)
+  ctx.drawImage(mask,0,permanent.height*0.772,permanent.width,25)
+  permanent.style.display='block'
+}
+
+let timeout
+const updateMask = sentence => {
+  _updateMask((text.innerText = sentence))
+
+  permanent.style.display='none'
+  clearTimeout(timeout)
+  timeout = setTimeout(() => updateMaskPermanent(sentence), 500)
+}
 
 const wait = delay => new Promise(resolve => setTimeout(resolve, delay))
 
